@@ -14,7 +14,8 @@ import {
     Text,
     Flex,
     Image,
-    Link
+    Link,
+    Box
 } from "@chakra-ui/react"
 import { CloseIcon } from '@chakra-ui/icons'
 
@@ -30,6 +31,7 @@ const Cart = () => {
                 isOpen={isCartOpen}
                 placement="right"
                 onClose={closeCart}
+                size="sm"
             >
                 <DrawerOverlay>
                 <DrawerContent>
@@ -38,7 +40,7 @@ const Cart = () => {
 
                     <DrawerBody>
                         {
-                            checkout.lineItems && checkout.lineItems.map(item => (
+                            checkout.lineItems?.length ? checkout.lineItems.map(item => (
                                 <Grid templateColumns="repeat(4, 1fr)" gap={1} key={item.id}>
                                     <Flex alignItems="center" justifyContent="center">
                                         <CloseIcon cursor="pointer" onClick={() => removeLineItem(item.id)} />
@@ -53,18 +55,25 @@ const Cart = () => {
                                         <Text>{item.variant.price}</Text>
                                     </Flex>
                                 </Grid>
-                            )) //regular braces so we dont have to return anything
+                            )) : //regular braces so we dont have to return anything
+                            <Box h="100%" w="100%" >
+                                <Text h="100%" display="flex" flexDir="column" alignItems="center" justifyContent="center">
+                                    Your Cart is empty.
+                                </Text>
+                            </Box>
                         }
                         {/* {checkout.lineItems && checkout.lineItems[0].title} */}
                     </DrawerBody>
 
-                    <DrawerFooter>
-                        <Button w="100%">
-                            <Link
-                                href={checkout.webUrl}
-                            >Checkout</Link>
-                        </Button>
-                    </DrawerFooter>
+                    { checkout.lineItems?.length ?
+                        <DrawerFooter>
+                            <Button w="100%">
+                                <Link
+                                    href={checkout.webUrl}
+                                >Checkout</Link>
+                            </Button>
+                        </DrawerFooter> : null
+                    }
                 </DrawerContent>
                 </DrawerOverlay>
             </Drawer>

@@ -89,12 +89,12 @@ export class ShopProvider extends Component {
         this.setState({isCartOpen: true})
     }
 
-    closeMenu = async () => {
-
+    closeMenu = () => {
+        this.setState({isMenuOpen: false})
     }
 
-    openMenu = async () => {
-        
+    openMenu = () => {
+        this.setState({isMenuOpen: true})
     }
 
     render() {
